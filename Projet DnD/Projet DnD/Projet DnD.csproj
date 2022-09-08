@@ -57,7 +57,6 @@
     <Compile Include="HalfElf.cs" />
     <Compile Include="HalfOrc.cs" />
     <Compile Include="Human.cs" />
-    <Compile Include="Joueur.cs" />
     <Compile Include="Monk.cs" />
     <Compile Include="Paladin.cs" />
     <Compile Include="Partie.cs" />

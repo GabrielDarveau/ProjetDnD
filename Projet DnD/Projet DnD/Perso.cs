@@ -14,18 +14,26 @@ namespace Projet_DnD
         int pv;
         int xp;
         int[] habilites = new int[6];
-        Classe classePerso = new Classe();
-        Race racePerso = new Race();
+        Classe classePerso;
+        Race racePerso;
 
         //Constructeur
-        public Perso()
+        public Perso(string leNom, Classe maClasse, Race maRace)
         {
-
+            nom = leNom;
+            niveau = 1;
+            xp = 0;
+            classePerso = maClasse;
+            racePerso = maRace;
         }
         //Méthodes
         public Classe GetClasse()
         {
             return classePerso;
+        }
+        public Race GetRace()
+        {
+            return racePerso;
         }
     }
 }
