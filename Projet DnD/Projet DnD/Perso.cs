@@ -13,7 +13,7 @@ namespace Projet_DnD
         int niveau;
         int pv;
         int xp;
-        int[] habilites = new int[6];
+        public int[] habilites = new int[6];
         Classe classePerso;
         Race racePerso;
 

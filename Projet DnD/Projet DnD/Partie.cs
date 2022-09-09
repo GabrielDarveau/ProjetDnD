@@ -165,7 +165,10 @@ namespace Projet_DnD
         internal void InitialiserPerso(int posPerso)
         {
             //Donnés a initialiser: Habilités, PV
+            foreach (int habilite in persos[posPerso].habilites)
+            {
 
+            }
         }
 
         internal int LancerDe(int faces)
