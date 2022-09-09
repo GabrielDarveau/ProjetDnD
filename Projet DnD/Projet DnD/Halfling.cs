@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projet_DnD
 {
-    internal class Hafling : Race
+    internal class Halfling : Race
     {
     }
 }

@@ -53,7 +53,7 @@
     <Compile Include="Elf.cs" />
     <Compile Include="Fighter.cs" />
     <Compile Include="Gnome.cs" />
-    <Compile Include="Hafling.cs" />
+    <Compile Include="Halfling.cs" />
     <Compile Include="HalfElf.cs" />
     <Compile Include="HalfOrc.cs" />
     <Compile Include="Human.cs" />
