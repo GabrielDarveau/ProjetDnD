@@ -9,7 +9,7 @@ namespace Projet_DnD
     internal class Partie
     {
         //Attributs
-        List<Perso> persos;
+        List<Perso> persos = new List<Perso>();
 
         //Constructeurs
         public Partie()
@@ -171,7 +171,7 @@ namespace Projet_DnD
             }
         }
 
-        internal int LancerDe(int faces)
+        public static int LancerDe(int faces)
         {
             Random rnd = new Random();
             return rnd.Next(1, faces+1);

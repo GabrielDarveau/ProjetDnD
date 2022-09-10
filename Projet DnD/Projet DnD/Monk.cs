@@ -9,10 +9,9 @@ namespace Projet_DnD
     internal class Monk : Classe
     {
         const int DE = 8;
-        Random alea = new Random();
         public override int Attaque()
         {
-            return alea.Next(1, 11);
+            return Partie.LancerDe(DE);
         }
         public override int GetDe()
         {

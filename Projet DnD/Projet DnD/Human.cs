@@ -8,5 +8,12 @@ namespace Projet_DnD
 {
     internal class Human : Race
     {
+        //Attributs
+        int[] bonus = new int[6] { 1, 1, 1, 1, 1, 1 };
+        //Méthodes
+        public override int[] GetBonus()
+        {
+            return bonus;
+        }
     }
 }

@@ -8,5 +8,14 @@ namespace Projet_DnD
 {
     internal class Cleric : Classe
     {
+        const int DE = 8;
+        public override int Attaque()
+        {
+            return Partie.LancerDe(DE);
+        }
+        public override int GetDe()
+        {
+            return DE;
+        }
     }
 }

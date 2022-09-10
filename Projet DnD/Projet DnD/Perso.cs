@@ -14,6 +14,14 @@ namespace Projet_DnD
         int pv;
         int xp;
         public int[] habilites = new int[6];
+        /* Tableau d'habilités
+         * [0]: Score Strenght
+         * [1]: Score Dexterity
+         * [2]: Score Constitution
+         * [3]: Score Intelligence
+         * [4]: Score Wisdom
+         * [5]: Score Charisma
+         */
         Classe classePerso;
         Race racePerso;
 
@@ -34,6 +42,10 @@ namespace Projet_DnD
         public Race GetRace()
         {
             return racePerso;
+        }
+        public void GagnerNiveau()
+        {
+
         }
     }
 }

@@ -8,5 +8,12 @@ namespace Projet_DnD
 {
     internal class HalfElf : Race
     {
+        //Attributs
+        int[] bonus = new int[6] { 0, 0, 0, 0, 0, 2 };
+        //Méthodes
+        public override int[] GetBonus()
+        {
+            return bonus;
+        }
     }
 }

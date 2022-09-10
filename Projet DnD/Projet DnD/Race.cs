@@ -8,5 +8,6 @@ namespace Projet_DnD
 {
     internal abstract class Race
     {
+        public abstract int[] GetBonus();
     }
 }
