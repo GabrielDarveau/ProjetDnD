@@ -9,6 +9,7 @@ namespace Projet_DnD
     internal class Fighter:Classe
     {
         const int DE = 10;
+        const string NOM = "Fighter";
         public override int Attaque()
         {
             return Partie.LancerDe(DE);
@@ -16,6 +17,10 @@ namespace Projet_DnD
         public override int GetDe()
         {
             return DE;
+        }
+        public override string GetNom()
+        {
+            return NOM;
         }
     }
 }

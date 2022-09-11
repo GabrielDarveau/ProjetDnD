@@ -9,6 +9,7 @@ namespace Projet_DnD
     internal class Warlock : Classe
     {
         const int DE = 8;
+        const string NOM = "Warlock";
         public override int Attaque()
         {
             return Partie.LancerDe(DE);
@@ -16,6 +17,10 @@ namespace Projet_DnD
         public override int GetDe()
         {
             return DE;
+        }
+        public override string GetNom()
+        {
+            return NOM;
         }
     }
 }

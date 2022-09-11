@@ -10,10 +10,15 @@ namespace Projet_DnD
     {
         //Attributs
         int[] bonus = new int[6] { 0, 0, 2, 0, 0, 0 };
+        const string NOM = "Dwarf";
         //Méthodes
         public override int[] GetBonus()
         {
             return bonus;
+        }
+        public override string GetNom()
+        {
+            return NOM;
         }
     }
 }

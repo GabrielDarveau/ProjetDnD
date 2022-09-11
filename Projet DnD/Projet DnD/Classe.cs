@@ -11,5 +11,7 @@ namespace Projet_DnD
         public abstract int Attaque();
 
         public abstract int GetDe();
+
+        public abstract string GetNom();
     }
 }

@@ -9,8 +9,8 @@ namespace Projet_DnD
     internal class Perso
     {
         //Attributs
-        string nom;
-        int niveau;
+        public string Nom{ get; private set; }
+        public int Niveau{ get; private set; }
         int pv;
         int xp;
         public int[] habilites = new int[6];
@@ -28,8 +28,8 @@ namespace Projet_DnD
         //Constructeur
         public Perso(string leNom, Classe maClasse, Race maRace)
         {
-            nom = leNom;
-            niveau = 1;
+            Nom = leNom;
+            Niveau = 1;
             xp = 0;
             classePerso = maClasse;
             racePerso = maRace;
@@ -46,6 +46,11 @@ namespace Projet_DnD
         public void GagnerNiveau()
         {
 
+        }
+
+        public void SetPv(int pointVie)
+        {
+            pv = pointVie;
         }
     }
 }

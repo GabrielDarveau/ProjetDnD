@@ -159,9 +159,15 @@ namespace Projet_DnD
         {
 
         }
-        internal void AfficherPerso()
+        internal void AfficherPerso(int posPerso)
         {
-
+            int pos = posPerso + 1;
+            Console.Clear();
+            Console.WriteLine("~~~~~Personnage numéro "+pos+"~~~~~");
+            Console.WriteLine("Nom: \t\t" + persos[posPerso].Nom);
+            Console.WriteLine("Classe: \t" + persos[posPerso].GetClasse().GetNom());
+            Console.WriteLine("Race: \t\t" + persos[posPerso].GetRace().GetNom());
+            Console.WriteLine("Niveau: \t" + persos[posPerso].Niveau);
         }
 
         internal void InitialiserPerso(int posPerso)
@@ -205,6 +211,11 @@ namespace Projet_DnD
                 bonus = persos[posPerso].GetRace().GetBonus()[i];
                 Console.WriteLine(result+" avec un bonus de : "+bonus);
                 persos[posPerso].habilites[i] = result + bonus;
+
+                // rouler de selon classe, attribuer modificateur constitution, additionner les deux
+                int pv;
+                pv = LancerDe(persos[posPerso].GetClasse().GetDe()) + (persos[posPerso].habilites[2] / 2-5);
+                persos[posPerso].SetPv(pv);
             }
         }
 

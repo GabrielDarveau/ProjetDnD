@@ -10,7 +10,16 @@ namespace Projet_DnD
     {
         static void Main(string[] args)
         {
+            Partie nvPartie = new Partie();
+            nvPartie.CreerPerso();
+            nvPartie.InitialiserPerso(0);
 
+            for (int i = 0; i < 6; i++)
+            {
+                Console.Write(nvPartie.persos[0].habilites[i]+" ");
+            }
+            nvPartie.AfficherPerso(0);
+            Console.ReadKey();
         }
     }
 }

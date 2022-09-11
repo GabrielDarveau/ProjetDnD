@@ -10,9 +10,14 @@ namespace Projet_DnD
     {
         //Attributs
         int[] bonus = new int[6] { 0, 0, 0, 1, 0, 2 };
+        const string NOM = "Tiefling";
         public override int[] GetBonus()
         {
             return bonus;
+        }
+        public override string GetNom()
+        {
+            return NOM;
         }
     }
 }
