@@ -9,7 +9,8 @@ namespace Projet_DnD
     internal class Partie
     {
         //Attributs
-        List<Perso> persos = new List<Perso>();
+        public List<Perso> persos = new List<Perso>();
+        static Random rnd = new Random();
 
         //Constructeurs
         public Partie()
@@ -39,7 +40,8 @@ namespace Projet_DnD
                 Console.WriteLine("Entrez le numéro corespondant à la classe de votre choix: ");
                 verif = int.TryParse(Console.ReadLine(), out numChoix);
 
-            } while (!verif && numChoix <1 && numChoix > 12);
+            } while (!verif || numChoix <1 || numChoix > 12);
+
             switch (numChoix)
             {
                 case 1:
@@ -102,7 +104,7 @@ namespace Projet_DnD
                 Console.WriteLine("Entrez le numéro corespondant à la Race de votre choix: ");
                 verif = int.TryParse(Console.ReadLine(), out numChoix);
 
-            } while (!verif && numChoix < 1 && numChoix > 9);
+            } while (!verif || numChoix < 1 || numChoix > 9);
             switch (numChoix)
             {
                 case 1:
@@ -164,16 +166,50 @@ namespace Projet_DnD
 
         internal void InitialiserPerso(int posPerso)
         {
+            int bonus;
             //Donnés a initialiser: Habilités, PV
-            foreach (int habilite in persos[posPerso].habilites)
+            for (int i = 0; i < 6; i++)
             {
+                switch (i)
+                {
+                    default:
+                        break;
+                    case 0:
+                        Console.Write("Votre score de force est: ");
+                        break;
+                    case 1:
+                        Console.Write("Votre score de dextérité est: ");
+                        break;
+                    case 2:
+                        Console.Write("Votre score de constitution est: ");
+                        break;
+                    case 3:
+                        Console.Write("Votre score de intelligence est: ");
+                        break;
+                    case 4:
+                        Console.Write("Votre score de Sagesse est: ");
+                        break;
+                    case 5:
+                        Console.Write("Votre score de charisme est: ");
+                        break;
+                }
 
+                //Rouler 4 dés 6 et prendre somme des 3 meilleurs
+                int result;
+                int[] lances = new int[4];
+                for (int j = 0; j < lances.Length; j++)
+                {
+                    lances[j] = LancerDe(6);
+                }
+                result = lances[0] + lances[1] + lances[2] + lances[3] - lances.Min();
+                bonus = persos[posPerso].GetRace().GetBonus()[i];
+                Console.WriteLine(result+" avec un bonus de : "+bonus);
+                persos[posPerso].habilites[i] = result + bonus;
             }
         }
 
         public static int LancerDe(int faces)
         {
-            Random rnd = new Random();
             return rnd.Next(1, faces+1);
         }
     }
