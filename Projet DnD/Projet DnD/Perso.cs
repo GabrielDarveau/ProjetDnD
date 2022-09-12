@@ -45,7 +45,10 @@ namespace Projet_DnD
         }
         public void GagnerNiveau()
         {
-
+            int modif = habilites[2] / 2 - 5;
+            int de = classePerso.GetDe();
+            int result = Partie.LancerDe(de) + modif;
+            pv = pv + result;
         }
 
         public void SetPv(int pointVie)

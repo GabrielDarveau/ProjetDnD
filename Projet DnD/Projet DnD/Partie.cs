@@ -21,7 +21,7 @@ namespace Projet_DnD
         //Méthodes
         public void CreerPerso()
         {
-            // Infos nécéssaires demandés à l'utilisateur: nom, classe, Race
+            // Infos nécéssaires demandées à l'utilisateur: nom, classe, Race
             string nom;
             Classe maClasse;
             int numChoix;
@@ -31,7 +31,7 @@ namespace Projet_DnD
             Console.Write("Entrez le nom de votre Personnage: ");
             nom = Console.ReadLine();
 
-            // Demander Classe
+            //Demander Classe
             do
             {
                 Console.WriteLine("1) Fighter   2)  Warlock      3) Bard    4)  Paladin\n" +
@@ -95,7 +95,7 @@ namespace Projet_DnD
                     break;
             }
 
-            // Demander Race
+            //Demander Race
             do
             {
                 Console.WriteLine("1) Tiefling    2) Human    3) Half-Orc   4)  Dragonborn\n" +
@@ -146,7 +146,7 @@ namespace Projet_DnD
                     break;
             }
 
-            //Créer Perso et l'ajouter a la liste
+            //Créer Perso et l'ajouter à la liste
             Perso monPerso = new Perso(nom, maClasse, maRace);
             persos.Add(monPerso);
 
@@ -173,7 +173,7 @@ namespace Projet_DnD
         internal void InitialiserPerso(int posPerso)
         {
             int bonus;
-            //Donnés a initialiser: Habilités, PV
+            //Données à initialiser: Habilités, PV
             for (int i = 0; i < 6; i++)
             {
                 switch (i)
@@ -193,14 +193,14 @@ namespace Projet_DnD
                         Console.Write("Votre score de intelligence est: ");
                         break;
                     case 4:
-                        Console.Write("Votre score de Sagesse est: ");
+                        Console.Write("Votre score de sagesse est: ");
                         break;
                     case 5:
                         Console.Write("Votre score de charisme est: ");
                         break;
                 }
 
-                //Rouler 4 dés 6 et prendre somme des 3 meilleurs
+                //Rouler 4 dés 6 et prendre la somme des 3 meilleurs
                 int result;
                 int[] lances = new int[4];
                 for (int j = 0; j < lances.Length; j++)
@@ -212,7 +212,7 @@ namespace Projet_DnD
                 Console.WriteLine(result+" avec un bonus de : "+bonus);
                 persos[posPerso].habilites[i] = result + bonus;
 
-                // rouler de selon classe, attribuer modificateur constitution, additionner les deux
+                //Rouler le dé selon la classe et ajouter le modificateur de constitution
                 int pv;
                 pv = LancerDe(persos[posPerso].GetClasse().GetDe()) + (persos[posPerso].habilites[2] / 2-5);
                 persos[posPerso].SetPv(pv);
