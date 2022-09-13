@@ -130,6 +130,7 @@ namespace Projet_DnD
                     ligne2 = sr.ReadLine();
                     string[] champs = ligne2.Split(',');
                     Race race;
+                    Classe classe;
                     int xp;
                     int[] habilites = new int[6];
                     bool verif = false;
@@ -142,7 +143,7 @@ namespace Projet_DnD
                             //Validation Classe
                             if (champs[2].Trim() == "Barbarian" || champs[2].Trim() == "Bard" || champs[2].Trim() == "Cleric" || champs[2].Trim() == "Druid" || champs[2].Trim() == "Fighter" || champs[2].Trim() == "Monk" || champs[2].Trim() == "Paladin" || champs[2].Trim() == "Ranger" || champs[2].Trim() == "Rogue" || champs[2].Trim() == "Sorcerer" || champs[2].Trim() == "Warlock" || champs[2].Trim() == "Wizard")
                             {
-
+                                classe = TrouverClasse(0, champs[2]);
                                 //validation XP
                                 if (int.TryParse(champs[3], out xp) && xp <355000 && xp>=0)
                                 {
@@ -275,7 +276,7 @@ namespace Projet_DnD
             return rnd.Next(1, faces+1);
         }
 
-        private Race TrouverRace( int raceInt, string raceString)
+        private Race TrouverRace(int raceInt, string raceString)
         {
             Race race;
             if (string.IsNullOrEmpty(raceString))
@@ -328,6 +329,73 @@ namespace Projet_DnD
 
             }
             return race;
+        }
+
+        private Classe TrouverClasse(int classeInt, string classeString)
+        {
+            Classe classe;
+            if (string.IsNullOrEmpty(classeString))
+            {
+                Dictionary<int, string> dictioClasse = new Dictionary<int, string>();
+                dictioClasse.Add(1, "Fighter");
+                dictioClasse.Add(2, "Warlock");
+                dictioClasse.Add(3, "Bard");
+                dictioClasse.Add(4, "Paladin");
+                dictioClasse.Add(5, "Barbarian");
+                dictioClasse.Add(6, "Ranger");
+                dictioClasse.Add(7, "Rogue");
+                dictioClasse.Add(8, "Cleric");
+                dictioClasse.Add(9, "Druid");
+                dictioClasse.Add(10, "Sorcerer");
+                dictioClasse.Add(11, "Wizard");
+                dictioClasse.Add(12, "Monk");
+                dictioClasse.TryGetValue(classeInt, out classeString);
+            }
+
+            switch (classeString)
+            {
+                case "Fighter":
+                    classe = new Fighter();
+                    break;
+                case "Warlock":
+                    classe = new Warlock();
+                    break;
+                case "Bard":
+                    classe = new Bard();
+                    break;
+                case "Paladin":
+                    classe = new Paladin();
+                    break;
+                case "Barbarian":
+                    classe = new Barbarian();
+                    break;
+                case "Ranger":
+                    classe = new Ranger();
+                    break;
+                case "Rogue":
+                    classe = new Rogue();
+                    break;
+                case "Cleric":
+                    classe = new Cleric();
+                    break;
+                case "Druid":
+                    classe = new Druid();
+                    break;
+                case "Sorcerer":
+                    classe = new Sorcerer();
+                    break;
+                case "Wizard":
+                    classe = new Wizard();
+                    break;
+                case "Monk":
+                    classe = new Monk();
+                    break;
+                default:
+                    classe = new Fighter();
+                    break;
+
+            }
+            return classe;
         }
     }
 }
