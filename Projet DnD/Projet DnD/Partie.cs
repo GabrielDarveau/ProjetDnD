@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Projet_DnD
 {
@@ -151,13 +152,72 @@ namespace Projet_DnD
             persos.Add(monPerso);
 
         }
-        public void ChargerPerso()
+        public bool ChargerPersos()
         {
+            DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());
 
+            foreach (var fichier in d.GetFiles("*.csv"))
+            {
+                FileStream file = new FileStream(fichier.FullName, FileMode.Open);
+                StreamReader sr = new StreamReader(file);
+                using (sr)
+                {
+                    //Vérifications: première ligne est identique, Race valide, classe valide, attributs réalistes
+                    string ligne1;
+                    string ligne2;
+                    ligne1 = sr.ReadLine();
+                    ligne2 = sr.ReadLine();
+                    string[] champs = ligne1.Split(',');
+                    if (ligne1.Equals("Nom, Race, Classe, PV, EXP, Strenght, Dexterity, Constitution, Intelligence, Wisdom, Charisma"))
+                    {
+                        //Validation Race
+                        if (champs[1] == "Dragonborn" || champs[1] == "Dwarf" || champs[1] == "Elf" || champs[1] == "Gnome" || champs[1] == "Half-Elf" || champs[1] == "Halfling" || champs[1] == "Half-Orc" || champs[1] == "Human" || champs[1] == "Tiefling")
+                        {
+                            //Validation Classe
+                            if (champs[2] == "Barbarian" || champs[2] == "Bard" || champs[2] == "Cleric" || champs[2] == "Druid" || champs[2] == "Fighter" || champs[2] == "Monk" || champs[2] == "Paladin" || champs[2] == "Ranger" || champs[2] == "Rogue" || champs[2] == "Sorcerer" || champs[2] == "Warlock" || champs[2] == "Wizard")
+                            {
+                                //Validation habilité
+                                if ()
+                                {
+
+                                }
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
         }
-        internal void EnregistrerPerso()
+        internal void EnregistrerPerso(int posPerso)
         {
-
+            FileStream monFichier = new FileStream("Perso"+posPerso+".csv",FileMode.OpenOrCreate);
+            StreamWriter sw = new StreamWriter(monFichier);
+            using (sw)
+            {
+                sw.WriteLine("Nom, Race, Classe, PV, EXP, Strenght, Dexterity, Constitution, Intelligence, Wisdom, Charisma");
+                sw.Write(persos[posPerso].Nom +", ");
+                sw.Write(persos[posPerso].GetRace().GetNom() + ", ");
+                sw.Write(persos[posPerso].GetClasse().GetNom() + ", ");
+                sw.Write(persos[posPerso].Pv+", ");
+                sw.Write(persos[posPerso].Xp+", ");
+                sw.Write(persos[posPerso].habilites[0] + ", ");
+                sw.Write(persos[posPerso].habilites[1] + ", ");
+                sw.Write(persos[posPerso].habilites[2] + ", ");
+                sw.Write(persos[posPerso].habilites[3] + ", ");
+                sw.Write(persos[posPerso].habilites[4] + ", ");
+                sw.WriteLine(persos[posPerso].habilites[5]);
+            }
         }
         internal void AfficherPerso(int posPerso)
         {
@@ -203,11 +263,14 @@ namespace Projet_DnD
                 //Rouler 4 dés 6 et prendre la somme des 3 meilleurs
                 int result;
                 int[] lances = new int[4];
-                for (int j = 0; j < lances.Length; j++)
+                do
                 {
-                    lances[j] = LancerDe(6);
-                }
-                result = lances[0] + lances[1] + lances[2] + lances[3] - lances.Min();
+                    for (int j = 0; j < lances.Length; j++)
+                    {
+                        lances[j] = LancerDe(6);
+                    }
+                    result = lances[0] + lances[1] + lances[2] + lances[3] - lances.Min();
+                } while (result < 8);
                 bonus = persos[posPerso].GetRace().GetBonus()[i];
                 Console.WriteLine(result+" avec un bonus de : "+bonus);
                 persos[posPerso].habilites[i] = result + bonus;
@@ -215,7 +278,7 @@ namespace Projet_DnD
                 //Rouler le dé selon la classe et ajouter le modificateur de constitution
                 int pv;
                 pv = LancerDe(persos[posPerso].GetClasse().GetDe()) + (persos[posPerso].habilites[2] / 2-5);
-                persos[posPerso].SetPv(pv);
+                persos[posPerso].Pv = pv;
             }
         }
 

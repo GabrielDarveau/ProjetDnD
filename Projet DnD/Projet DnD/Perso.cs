@@ -11,8 +11,8 @@ namespace Projet_DnD
         //Attributs
         public string Nom{ get; private set; }
         public int Niveau{ get; private set; }
-        int pv;
-        int xp;
+        public int Pv { get; set; }
+        public int Xp { get; private set; }
         public int[] habilites = new int[6];
         /* Tableau d'habilités
          * [0]: Score Strenght
@@ -30,7 +30,7 @@ namespace Projet_DnD
         {
             Nom = leNom;
             Niveau = 1;
-            xp = 0;
+            Xp = 0;
             classePerso = maClasse;
             racePerso = maRace;
         }
@@ -48,12 +48,7 @@ namespace Projet_DnD
             int modif = habilites[2] / 2 - 5;
             int de = classePerso.GetDe();
             int result = Partie.LancerDe(de) + modif;
-            pv = pv + result;
-        }
-
-        public void SetPv(int pointVie)
-        {
-            pv = pointVie;
+            Pv = Pv + result;
         }
     }
 }

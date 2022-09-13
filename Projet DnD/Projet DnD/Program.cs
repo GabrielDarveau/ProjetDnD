@@ -18,7 +18,8 @@ namespace Projet_DnD
             {
                 Console.Write(nvPartie.persos[0].habilites[i]+" ");
             }
-            nvPartie.AfficherPerso(0);
+            nvPartie.EnregistrerPerso(0);
+            nvPartie.ChargerPersos();
             Console.ReadKey();
         }
     }
