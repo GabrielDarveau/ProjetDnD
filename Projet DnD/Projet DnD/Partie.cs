@@ -106,46 +106,7 @@ namespace Projet_DnD
                 verif = int.TryParse(Console.ReadLine(), out numChoix);
 
             } while (!verif || numChoix < 1 || numChoix > 9);
-            switch (numChoix)
-            {
-                case 1:
-                    maRace = new Tiefling();
-                    break;
-
-                case 2:
-                    maRace = new Human();
-                    break;
-
-                case 3:
-                    maRace = new HalfOrc();
-                    break;
-
-                case 4:
-                    maRace = new Dragonborn();
-                    break;
-
-                case 5:
-                    maRace = new Dwarf();
-                    break;
-
-                case 6:
-                    maRace = new Elf();
-                    break;
-                case 7:
-                    maRace = new Gnome();
-                    break;
-
-                case 8:
-                    maRace = new HalfElf();
-                    break;
-
-                case 9:
-                    maRace = new Halfling();
-                    break;
-                    default:
-                    maRace = new Human();
-                    break;
-            }
+            maRace = TrouverRace(numChoix, null);
 
             //Créer Perso et l'ajouter à la liste
             Perso monPerso = new Perso(nom, maClasse, maRace);
@@ -167,19 +128,45 @@ namespace Projet_DnD
                     string ligne2;
                     ligne1 = sr.ReadLine();
                     ligne2 = sr.ReadLine();
-                    string[] champs = ligne1.Split(',');
+                    string[] champs = ligne2.Split(',');
+                    Race race;
+                    int xp;
+                    int[] habilites = new int[6];
+                    bool verif = false;
                     if (ligne1.Equals("Nom, Race, Classe, PV, EXP, Strenght, Dexterity, Constitution, Intelligence, Wisdom, Charisma"))
                     {
                         //Validation Race
-                        if (champs[1] == "Dragonborn" || champs[1] == "Dwarf" || champs[1] == "Elf" || champs[1] == "Gnome" || champs[1] == "Half-Elf" || champs[1] == "Halfling" || champs[1] == "Half-Orc" || champs[1] == "Human" || champs[1] == "Tiefling")
+                        if (champs[1].Trim() == "Dragonborn" || champs[1].Trim() == "Dwarf" || champs[1].Trim() == "Elf" || champs[1].Trim() == "Gnome" || champs[1].Trim() == "Half-Elf" || champs[1].Trim() == "Halfling" || champs[1].Trim() == "Half-Orc" || champs[1].Trim() == "Human" || champs[1].Trim() == "Tiefling")
                         {
+                            race = TrouverRace(0, champs[1]);
                             //Validation Classe
-                            if (champs[2] == "Barbarian" || champs[2] == "Bard" || champs[2] == "Cleric" || champs[2] == "Druid" || champs[2] == "Fighter" || champs[2] == "Monk" || champs[2] == "Paladin" || champs[2] == "Ranger" || champs[2] == "Rogue" || champs[2] == "Sorcerer" || champs[2] == "Warlock" || champs[2] == "Wizard")
+                            if (champs[2].Trim() == "Barbarian" || champs[2].Trim() == "Bard" || champs[2].Trim() == "Cleric" || champs[2].Trim() == "Druid" || champs[2].Trim() == "Fighter" || champs[2].Trim() == "Monk" || champs[2].Trim() == "Paladin" || champs[2].Trim() == "Ranger" || champs[2].Trim() == "Rogue" || champs[2].Trim() == "Sorcerer" || champs[2].Trim() == "Warlock" || champs[2].Trim() == "Wizard")
                             {
-                                //Validation habilité
-                                if ()
-                                {
 
+                                //validation XP
+                                if (int.TryParse(champs[3], out xp) && xp <355000 && xp>=0)
+                                {
+                                    //Validation habilités
+                                    for(int i = 5; i<6; i++)
+                                    {
+                                        if (int.TryParse(champs[i], out habilites[i - 5]) && habilites[i - 5] < (GetNiveau(xp) * 2) + 2 && habilites[i - 5] <= 20 && habilites[i - 5] >= 0)
+                                        {
+                                            verif = true;
+                                        }
+                                        else
+                                        {
+                                            return false;
+                                        }
+                                    }
+                                    //validation PV
+                                    if (verif)
+                                    {
+
+                                    }
+                                }
+                                else
+                                {
+                                    return false;
                                 }
                             }
                             else
@@ -198,6 +185,7 @@ namespace Projet_DnD
                     }
                 }
             }
+            return true;
         }
         internal void EnregistrerPerso(int posPerso)
         {
@@ -285,6 +273,61 @@ namespace Projet_DnD
         public static int LancerDe(int faces)
         {
             return rnd.Next(1, faces+1);
+        }
+
+        private Race TrouverRace( int raceInt, string raceString)
+        {
+            Race race;
+            if (string.IsNullOrEmpty(raceString))
+            {
+                Dictionary<int, string> dictioRace = new Dictionary<int, string>();
+                dictioRace.Add(1, "Tiefling");
+                dictioRace.Add(2, "Human");
+                dictioRace.Add(3, "Half-Orc");
+                dictioRace.Add(4, "Dragonborn");
+                dictioRace.Add(5, "Dwarf");
+                dictioRace.Add(6, "Elf");
+                dictioRace.Add(7, "Gnome");
+                dictioRace.Add(8, "Half-Elf");
+                dictioRace.Add(9, "Halfling");
+                dictioRace.TryGetValue(raceInt, out raceString);
+            }
+
+            switch (raceString)
+            {
+                case "Tiefling":
+                    race = new Tiefling();
+                    break;
+                case "Human":
+                    race = new Human();
+                    break;
+                case "Half-Orc":
+                    race = new HalfOrc();
+                    break;
+                case "Dragonborn":
+                    race = new Dragonborn();
+                    break;
+                case "Dwarf":
+                    race = new Dwarf();
+                    break;
+                case "Elf":
+                    race = new Elf();
+                    break;
+                case "Gnome":
+                    race = new Gnome();
+                    break;
+                case "Half-Elf":
+                    race = new HalfElf();
+                    break;
+                case "Halfling":
+                    race = new Halfling();
+                    break;
+                default:
+                    race = new Human();
+                    break;
+
+            }
+            return race;
         }
     }
 }
