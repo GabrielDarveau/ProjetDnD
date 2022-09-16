@@ -8,11 +8,12 @@ namespace Projet_DnD
 {
     internal class Wizard : Classe
     {
+        //Attributs
         const int DE = 6;
         const string NOM = "Wizard";
-        public override int Attaque()
+        public override void Attaque()
         {
-            return Partie.LancerDe(DE);
+            Console.WriteLine(" attaque de "+Partie.LancerDe(DE));
         }
         public override int GetDe()
         {

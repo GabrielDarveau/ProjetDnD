@@ -8,11 +8,12 @@ namespace Projet_DnD
 {
     internal class Monk : Classe
     {
+        //Attributs
         const int DE = 8;
         const string NOM = "Monk";
-        public override int Attaque()
+        public override void Attaque()
         {
-            return Partie.LancerDe(DE);
+            Console.WriteLine(" attaque de "+Partie.LancerDe(DE));
         }
         public override int GetDe()
         {

@@ -8,11 +8,14 @@ namespace Projet_DnD
 {
     internal class Barbarian : Classe
     {
+        //attributs
         const int DE = 12;
         const string NOM = "Barbarian";
-        public override int Attaque()
+
+        //Fonctions
+        public override void Attaque()
         {
-            return Partie.LancerDe(DE);
+            Console.WriteLine(" attaque de "+Partie.LancerDe(DE));
         }
         public override int GetDe()
         {

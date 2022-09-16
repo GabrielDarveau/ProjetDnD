@@ -20,6 +20,9 @@ namespace Projet_DnD
         }
 
         //Méthodes
+        /// <summary>
+        /// Crée un nouveau personnage avec les informations de base(nom, race, classe) demandés à l'utilisateur
+        /// </summary>
         public void CreerPerso()
         {
             // Infos nécéssaires demandées à l'utilisateur: nom, classe, Race
@@ -42,59 +45,7 @@ namespace Projet_DnD
                 verif = int.TryParse(Console.ReadLine(), out numChoix);
 
             } while (!verif || numChoix <1 || numChoix > 12);
-
-            switch (numChoix)
-            {
-                case 1:
-                    maClasse = new Fighter();
-                    break;
-
-                case 2:maClasse = new Warlock();
-                    break;
-
-                case 3:
-                    maClasse = new Bard();
-                    break;
-
-                case 4:
-                    maClasse = new Paladin();
-                    break;
-
-                case 5:
-                    maClasse = new Barbarian();
-                    break;
-
-                case 6:
-                    maClasse = new Ranger();
-                    break;
-
-                case 7:
-                    maClasse = new Rogue();
-                    break;
-
-                case 8:
-                    maClasse = new Cleric();
-                    break;
-
-                case 9:
-                    maClasse = new Druid();
-                    break;
-
-                case 10:
-                    maClasse = new Sorcerer();
-                    break;
-
-                case 11:
-                    maClasse = new Wizard();
-                    break;
-
-                case 12:
-                    maClasse = new Monk();
-                    break;
-                default:
-                    maClasse = new Fighter();
-                    break;
-            }
+            maClasse = TrouverClasse(numChoix, null);
 
             //Demander Race
             do
@@ -111,16 +62,23 @@ namespace Projet_DnD
             //Créer Perso et l'ajouter à la liste
             Perso monPerso = new Perso(nom, maClasse, maRace);
             persos.Add(monPerso);
+            InitialiserPerso(persos.Count-1);
 
         }
+        /// <summary>
+        /// lis tout les fichiers csv, vérifie qu'ils sont correct, puis crée un perso avec les informations validées
+        /// </summary>
+        /// <returns></returns>
         public bool ChargerPersos()
         {
             DirectoryInfo d = new DirectoryInfo(Directory.GetCurrentDirectory());
 
+            int pos = 0;
             foreach (var fichier in d.GetFiles("*.csv"))
             {
                 FileStream file = new FileStream(fichier.FullName, FileMode.Open);
                 StreamReader sr = new StreamReader(file);
+
                 using (sr)
                 {
                     //Vérifications: première ligne est identique, Race valide, classe valide, attributs réalistes
@@ -132,8 +90,9 @@ namespace Projet_DnD
                     Race race;
                     Classe classe;
                     int xp;
+                    int pv;
                     int[] habilites = new int[6];
-                    bool verif = false;
+                    //validation fichier
                     if (ligne1.Equals("Nom, Race, Classe, PV, EXP, Strenght, Dexterity, Constitution, Intelligence, Wisdom, Charisma"))
                     {
                         //Validation Race
@@ -145,49 +104,58 @@ namespace Projet_DnD
                             {
                                 classe = TrouverClasse(0, champs[2]);
                                 //validation XP
-                                if (int.TryParse(champs[3], out xp) && xp <355000 && xp>=0)
+                                if (int.TryParse(champs[4], out xp) && xp <355000 && xp>=0)
                                 {
                                     //Validation habilités
-                                    for(int i = 5; i<6; i++)
+                                    for(int i = 5; i<11; i++)
                                     {
-                                        if (int.TryParse(champs[i], out habilites[i - 5]) && habilites[i - 5] < (GetNiveau(xp) * 2) + 2 && habilites[i - 5] <= 20 && habilites[i - 5] >= 0)
+                                        if (!(int.TryParse(champs[i], out habilites[i - 5]) || habilites[i - 5] < (Perso.GetNiveau(xp) * 2) + 2 || habilites[i - 5] <= 20 || habilites[i - 5] >= 0))
                                         {
-                                            verif = true;
-                                        }
-                                        else
-                                        {
+                                            Console.WriteLine("le fichier " + file.Name + " est incorrect: Une ou plusieurs habilités invalide");
                                             return false;
                                         }
                                     }
                                     //validation PV
-                                    if (verif)
+                                    if (int.TryParse(champs[3], out pv) && pv <= classe.GetDe() + (habilites[2] / 2 - 5) + (Perso.GetNiveau(xp)*(classe.GetDe() + habilites[2])) && pv > 0)
                                     {
-
+                                        //Création du perso quand tout est valide
+                                        Perso monPerso = new Perso(champs[0], classe, race, xp, Perso.GetNiveau(xp), pv, habilites);
+                                        persos.Add(monPerso);
+                                        pos++;
+                                        Console.WriteLine("le fichier " + file.Name + " est correct");
                                     }
                                 }
                                 else
                                 {
+                                    Console.WriteLine("le fichier " + file.Name + " est incorrect: Exp invalide");
                                     return false;
                                 }
                             }
                             else
                             {
+                                Console.WriteLine("le fichier " + file.Name + " est incorrect: Classe invalide");
                                 return false;
                             }
                         }
                         else
                         {
+                            Console.WriteLine("le fichier " + file.Name + " est incorrect: Race invalide");
                             return false;
                         }
                     }
                     else
                     {
+                        Console.WriteLine("le fichier " + file.Name + " est incorrect");
                         return false;
                     }
                 }
             }
             return true;
         }
+        /// <summary>
+        /// Enregistre les informations d'un perso dans un fichier csv
+        /// </summary>
+        /// <param name="posPerso"></param>
         internal void EnregistrerPerso(int posPerso)
         {
             FileStream monFichier = new FileStream("Perso"+posPerso+".csv",FileMode.OpenOrCreate);
@@ -208,17 +176,42 @@ namespace Projet_DnD
                 sw.WriteLine(persos[posPerso].habilites[5]);
             }
         }
+        /// <summary>
+        /// affiche les informations d'un personnage
+        /// </summary>
+        /// <param name="posPerso"></param>
         internal void AfficherPerso(int posPerso)
         {
+            Dictionary<int, string> dictioHabilites = new Dictionary<int, string>();
+            dictioHabilites.Add(0, "Strength");
+            dictioHabilites.Add(1, "Dexterity");
+            dictioHabilites.Add(2, "Constitution");
+            dictioHabilites.Add(3, "Intelligence");
+            dictioHabilites.Add(4, "Wisdom");
+            dictioHabilites.Add(5, "Charisma");
+            string habilite;
+
             int pos = posPerso + 1;
-            Console.Clear();
+            Console.WriteLine();
             Console.WriteLine("~~~~~Personnage numéro "+pos+"~~~~~");
             Console.WriteLine("Nom: \t\t" + persos[posPerso].Nom);
             Console.WriteLine("Classe: \t" + persos[posPerso].GetClasse().GetNom());
             Console.WriteLine("Race: \t\t" + persos[posPerso].GetRace().GetNom());
+            Console.WriteLine("Expérience: \t" + persos[posPerso].Xp);
             Console.WriteLine("Niveau: \t" + persos[posPerso].Niveau);
+            Console.WriteLine("PV: \t\t"+ persos[posPerso].Pv);
+            Console.Write("Habilités: \t");
+            for (int i = 0; i < 6; i++)
+            {
+                dictioHabilites.TryGetValue(i, out habilite);
+                Console.Write( habilite +" "+ persos[posPerso].habilites[i] +" ");
+            }
+            Console.WriteLine();
         }
-
+        /// <summary>
+        /// prend un perso de base et calcul ses attributs initiaux avec le dé de classe et le bonus de race
+        /// </summary>
+        /// <param name="posPerso"></param>
         internal void InitialiserPerso(int posPerso)
         {
             int bonus;
@@ -264,18 +257,29 @@ namespace Projet_DnD
                 Console.WriteLine(result+" avec un bonus de : "+bonus);
                 persos[posPerso].habilites[i] = result + bonus;
 
-                //Rouler le dé selon la classe et ajouter le modificateur de constitution
-                int pv;
-                pv = LancerDe(persos[posPerso].GetClasse().GetDe()) + (persos[posPerso].habilites[2] / 2-5);
-                persos[posPerso].Pv = pv;
             }
+            //Rouler le dé selon la classe et ajouter le modificateur de constitution
+            int pv;
+            pv = LancerDe(persos[posPerso].GetClasse().GetDe()) + (persos[posPerso].habilites[2] / 2 - 5);
+            persos[posPerso].Pv = pv;
         }
 
+        /// <summary>
+        /// prend le nombre de faces d'un dé et donne un chiffre aléatoire
+        /// </summary>
+        /// <param name="faces"></param>
+        /// <returns></returns>
         public static int LancerDe(int faces)
         {
             return rnd.Next(1, faces+1);
         }
 
+        /// <summary>
+        /// retourne une race selon un index en int ou un nom en string
+        /// </summary>
+        /// <param name="raceInt"></param>
+        /// <param name="raceString"></param>
+        /// <returns></returns>
         private Race TrouverRace(int raceInt, string raceString)
         {
             Race race;
@@ -326,11 +330,15 @@ namespace Projet_DnD
                 default:
                     race = new Human();
                     break;
-
             }
             return race;
         }
-
+        /// <summary>
+        /// retourne une classe selon un index en int ou un nom en string
+        /// </summary>
+        /// <param name="classeInt"></param>
+        /// <param name="classeString"></param>
+        /// <returns></returns>
         private Classe TrouverClasse(int classeInt, string classeString)
         {
             Classe classe;

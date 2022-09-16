@@ -8,7 +8,7 @@ namespace Projet_DnD
 {
     internal abstract class Classe
     {
-        public abstract int Attaque();
+        public abstract void Attaque();
 
         public abstract int GetDe();
 

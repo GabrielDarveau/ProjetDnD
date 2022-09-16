@@ -8,11 +8,12 @@ namespace Projet_DnD
 {
     internal class Fighter:Classe
     {
+        //Attributs
         const int DE = 10;
         const string NOM = "Fighter";
-        public override int Attaque()
+        public override void Attaque()
         {
-            return Partie.LancerDe(DE);
+            Console.WriteLine(" attaque de "+Partie.LancerDe(DE));
         }
         public override int GetDe()
         {
