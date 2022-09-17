@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace Projet_DnD
 {
-    internal abstract class Classe
+    public abstract class Classe
     {
+        /// <summary>
+        /// Affiche le jet d'attaque du personnage
+        /// </summary>
         public abstract void Attaque();
-
+        /// <summary>
+        /// Retourne le dé du personnage
+        /// </summary>
+        /// <returns></returns>
         public abstract int GetDe();
-
+        /// <summary>
+        /// Retourne le nom de la classe
+        /// </summary>
+        /// <returns></returns>
         public abstract string GetNom();
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projet_DnD
 {
-    internal class Perso
+    public class Perso
     {
         //Attributs
         public string Nom { get; private set; }
@@ -25,7 +25,7 @@ namespace Projet_DnD
         Classe classePerso;
         Race racePerso;
 
-        //Constructeur
+        //Constructeurs
         public Perso(string leNom, Classe maClasse, Race maRace)
         {
             Nom = leNom;
@@ -47,14 +47,25 @@ namespace Projet_DnD
         }
 
         //Méthodes
+        /// <summary>
+        /// Retourne la classe du personnage
+        /// </summary>
+        /// <returns></returns>
         public Classe GetClasse()
         {
             return classePerso;
         }
+        /// <summary>
+        /// Retourne la race du personnage
+        /// </summary>
+        /// <returns></returns>
         public Race GetRace()
         {
             return racePerso;
         }
+        /// <summary>
+        /// Augmente le niveau, les points de vie et les habilités
+        /// </summary>
         public void GagnerNiveau()
         {
             Niveau++;
@@ -68,7 +79,7 @@ namespace Projet_DnD
             Console.Clear();
             do
             {
-                Console.WriteLine("Félicitation vous avez monter de niveau!");
+                Console.WriteLine("Félicitation vous avez monté de niveau!");
                 Console.WriteLine("L'augmentation du niveau de votre joueur permet un choix entre deux options:\n" +
                     "1) Augmenter le score de deux habilités de 1\n" +
                     "2) Augmenter le score d'une habilité de 2");
@@ -126,7 +137,11 @@ namespace Projet_DnD
                 habilites[numChoix - 1] = habilites[numChoix - 1] + 2;
             }
         }
-
+        /// <summary>
+        /// Retourne un niveau selon l'expérience (xp) passée en paramètre
+        /// </summary>
+        /// <param name="xp"></param>
+        /// <returns></returns>
         public static int GetNiveau(int xp)
         {
             int niv = 0;
@@ -235,7 +250,9 @@ namespace Projet_DnD
             }
             return niv;
         }
-
+        /// <summary>
+        /// Demande l'augmentation de l'expérience du personnage et augmente son expérience (xp)
+        /// </summary>
         public void GagnerXp()
         {
             int niv1, niv2, xp;
@@ -243,7 +260,7 @@ namespace Projet_DnD
 
             do
             {
-                Console.Write("Combien d'expérience voulez vous gagner: ");
+                Console.Write("Combien d'expérience voulez-vous gagner: ");
                 verif = int.TryParse(Console.ReadLine(), out xp);
             } while (!verif || xp < 0);
             niv1 = GetNiveau(Xp);

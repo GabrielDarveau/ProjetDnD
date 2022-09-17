@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projet_DnD
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -14,7 +14,7 @@ namespace Projet_DnD
         }
 
         /// <summary>
-        /// éxecute toutes les fonctions du programme dans le bon ordre
+        /// Exécute toutes les fonctions du programme dans l'ordre
         /// </summary>
         static void Executer()
         {
@@ -50,7 +50,7 @@ namespace Projet_DnD
         }
 
         /// <summary>
-        /// affiche le menu principal
+        /// Affiche le menu principal
         /// </summary>
         static void AfficherMenu()
         {
@@ -58,11 +58,11 @@ namespace Projet_DnD
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~Menu Principal~~~~~~~~~~~~~~~~~~~~~~~") ;
             Console.WriteLine("A)Créer un nouveau personnage \t B)Afficher un personnage");
             Console.WriteLine("C)Attaquer \t\t\t D)Enregistrer un personnage");
-            Console.WriteLine("E)Gagner le l'expérience \t F)Quitter");
+            Console.WriteLine("E)Gagner de l'expérience \t F)Quitter");
         }
 
         /// <summary>
-        /// Permet de sélectionner une action dans le menu et vérifier le choix puis lancer les fonctions correspondantes
+        /// Permet de sélectionner une action dans le menu et vérifier le choix, puis lancer les fonctions correspondantes
         /// </summary>
         /// <param name="nvPartie"></param>
         static void SelectAction(Partie nvPartie)
@@ -75,7 +75,7 @@ namespace Projet_DnD
                 verif = char.TryParse(Console.ReadLine().ToUpper(), out choix);
             } while (!verif || choix < 'A' || choix >'F');
 
-            if (nvPartie.persos.Count >0 || choix == 'A' || choix == 'F')
+            if (nvPartie.persos.Count > 0 || choix == 'A' || choix == 'F')
             {
                 switch (choix)
                 {
@@ -99,6 +99,8 @@ namespace Projet_DnD
                         nvPartie.persos[SelectPerso(nvPartie)].GagnerXp();
                         break;
                     case 'F':
+                        Console.WriteLine("\nMerci d'avoir utilisé notre programme! :)\nG.D. & N.M.");
+                        Console.ReadKey();
                         Environment.Exit(0);
                         break;
                 }

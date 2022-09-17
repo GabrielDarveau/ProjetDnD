@@ -21,11 +21,11 @@ namespace Projet_DnD
 
         //Méthodes
         /// <summary>
-        /// Crée un nouveau personnage avec les informations de base(nom, race, classe) demandés à l'utilisateur
+        /// Crée un nouveau personnage avec les informations de base (nom, race et classe) demandées à l'utilisateur
         /// </summary>
         public void CreerPerso()
         {
-            // Infos nécéssaires demandées à l'utilisateur: nom, classe, Race
+            //Infos nécéssaires demandées à l'utilisateur: nom, Classe et Race
             string nom;
             Classe maClasse;
             int numChoix;
@@ -66,7 +66,7 @@ namespace Projet_DnD
 
         }
         /// <summary>
-        /// lis tout les fichiers csv, vérifie qu'ils sont correct, puis crée un perso avec les informations validées
+        /// Lit tous les fichiers .csv, vérifie qu'ils sont corrects, puis crée un perso avec les informations validées
         /// </summary>
         /// <returns></returns>
         public bool ChargerPersos()
@@ -81,7 +81,7 @@ namespace Projet_DnD
 
                 using (sr)
                 {
-                    //Vérifications: première ligne est identique, Race valide, classe valide, attributs réalistes
+                    //Vérifications: première ligne est identique, Race valide, Classe valide, attributs/habilités réalistes
                     string ligne1;
                     string ligne2;
                     ligne1 = sr.ReadLine();
@@ -92,21 +92,21 @@ namespace Projet_DnD
                     int xp;
                     int pv;
                     int[] habilites = new int[6];
-                    //validation fichier
+                    //Validation du fichier
                     if (ligne1.Equals("Nom, Race, Classe, PV, EXP, Strenght, Dexterity, Constitution, Intelligence, Wisdom, Charisma"))
                     {
-                        //Validation Race
+                        //Validation de la Race
                         if (champs[1].Trim() == "Dragonborn" || champs[1].Trim() == "Dwarf" || champs[1].Trim() == "Elf" || champs[1].Trim() == "Gnome" || champs[1].Trim() == "Half-Elf" || champs[1].Trim() == "Halfling" || champs[1].Trim() == "Half-Orc" || champs[1].Trim() == "Human" || champs[1].Trim() == "Tiefling")
                         {
                             race = TrouverRace(0, champs[1]);
-                            //Validation Classe
+                            //Validation de la Classe
                             if (champs[2].Trim() == "Barbarian" || champs[2].Trim() == "Bard" || champs[2].Trim() == "Cleric" || champs[2].Trim() == "Druid" || champs[2].Trim() == "Fighter" || champs[2].Trim() == "Monk" || champs[2].Trim() == "Paladin" || champs[2].Trim() == "Ranger" || champs[2].Trim() == "Rogue" || champs[2].Trim() == "Sorcerer" || champs[2].Trim() == "Warlock" || champs[2].Trim() == "Wizard")
                             {
                                 classe = TrouverClasse(0, champs[2]);
-                                //validation XP
-                                if (int.TryParse(champs[4], out xp) && xp <355000 && xp>=0)
+                                //Validation XP
+                                if (int.TryParse(champs[4], out xp) && xp <= 355000 && xp>=0)
                                 {
-                                    //Validation habilités
+                                    //Validation des habilités
                                     for(int i = 5; i<11; i++)
                                     {
                                         if (!(int.TryParse(champs[i], out habilites[i - 5]) || habilites[i - 5] < (Perso.GetNiveau(xp) * 2) + 2 || habilites[i - 5] <= 20 || habilites[i - 5] >= 0))
@@ -115,7 +115,7 @@ namespace Projet_DnD
                                             return false;
                                         }
                                     }
-                                    //validation PV
+                                    //Validation PV
                                     if (int.TryParse(champs[3], out pv) && pv <= classe.GetDe() + (habilites[2] / 2 - 5) + (Perso.GetNiveau(xp)*(classe.GetDe() + habilites[2])) && pv > 0)
                                     {
                                         //Création du perso quand tout est valide
@@ -153,7 +153,7 @@ namespace Projet_DnD
             return true;
         }
         /// <summary>
-        /// Enregistre les informations d'un perso dans un fichier csv
+        /// Enregistre les informations d'un personnage dans un fichier .csv
         /// </summary>
         /// <param name="posPerso"></param>
         internal void EnregistrerPerso(int posPerso)
@@ -177,7 +177,7 @@ namespace Projet_DnD
             }
         }
         /// <summary>
-        /// affiche les informations d'un personnage
+        /// Affiche les informations d'un personnage
         /// </summary>
         /// <param name="posPerso"></param>
         internal void AfficherPerso(int posPerso)
@@ -204,12 +204,12 @@ namespace Projet_DnD
             for (int i = 0; i < 6; i++)
             {
                 dictioHabilites.TryGetValue(i, out habilite);
-                Console.Write( habilite +" "+ persos[posPerso].habilites[i] +" ");
+                Console.Write( habilite +": "+ persos[posPerso].habilites[i] +" ");
             }
             Console.WriteLine();
         }
         /// <summary>
-        /// prend un perso de base et calcul ses attributs initiaux avec le dé de classe et le bonus de race
+        /// Prend un personnage de base et calcule ses attributs initiaux avec le dé de classe et le bonus de race
         /// </summary>
         /// <param name="posPerso"></param>
         internal void InitialiserPerso(int posPerso)
@@ -265,7 +265,7 @@ namespace Projet_DnD
         }
 
         /// <summary>
-        /// prend le nombre de faces d'un dé et donne un chiffre aléatoire
+        /// Prend le nombre de faces d'un dé et retourne un chiffre aléatoire
         /// </summary>
         /// <param name="faces"></param>
         /// <returns></returns>
@@ -275,7 +275,7 @@ namespace Projet_DnD
         }
 
         /// <summary>
-        /// retourne une race selon un index en int ou un nom en string
+        /// Retourne une race selon un index en int ou un nom en string
         /// </summary>
         /// <param name="raceInt"></param>
         /// <param name="raceString"></param>
@@ -334,7 +334,7 @@ namespace Projet_DnD
             return race;
         }
         /// <summary>
-        /// retourne une classe selon un index en int ou un nom en string
+        /// Retourne une classe selon un index en int ou un nom en string
         /// </summary>
         /// <param name="classeInt"></param>
         /// <param name="classeString"></param>
